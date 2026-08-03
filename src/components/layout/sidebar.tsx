@@ -1,8 +1,11 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useUIStore } from "@/store/ui.store";
+import { useCreateRoomModalStore } from "@/store/create-room.store";
+import { ROUTES } from "@/constants/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -26,6 +29,16 @@ const sidebarNavItems = [
 export function Sidebar() {
   const { user, logout } = useAuth();
   const { sidebarOpen, setSidebarOpen } = useUIStore();
+  const openCreateRoom = useCreateRoomModalStore((state) => state.open);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleCreateRoom = () => {
+    if (pathname !== ROUTES.DASHBOARD) {
+      router.push(ROUTES.DASHBOARD);
+    }
+    openCreateRoom();
+  };
 
   return (
     <aside
@@ -68,6 +81,7 @@ export function Sidebar() {
           variant="outline"
           className="mb-2 w-full justify-start gap-2 text-muted-foreground"
           size="sm"
+          onClick={handleCreateRoom}
         >
           <Plus className="size-4" />
           Create Room

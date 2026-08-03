@@ -8,6 +8,8 @@ export const API_ENDPOINTS = {
   ROOMS: {
     LIST: "/rooms",
     CREATE: "/rooms",
+    GET: (id: string) => `/rooms/${id}`,
+    MEMBERS: (id: string) => `/rooms/${id}/members`,
     JOIN: (id: string) => `/rooms/${id}/join`,
     LEAVE: (id: string) => `/rooms/${id}/leave`,
     PUBLIC: "/rooms/public",

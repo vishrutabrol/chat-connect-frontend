@@ -1,7 +1,10 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { useUIStore } from "@/store/ui.store";
+import { useCreateRoomModalStore } from "@/store/create-room.store";
+import { ROUTES } from "@/constants/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +25,16 @@ const mobileNavItems = [
 export function MobileNav() {
   const { user } = useAuth();
   const { mobileMenuOpen, setMobileMenuOpen } = useUIStore();
+  const openCreateRoom = useCreateRoomModalStore((state) => state.open);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleCreateRoom = () => {
+    if (pathname !== ROUTES.DASHBOARD) {
+      router.push(ROUTES.DASHBOARD);
+    }
+    openCreateRoom();
+  };
 
   return (
     <>
@@ -58,6 +71,7 @@ export function MobileNav() {
               variant="ghost"
               className="flex flex-col gap-0.5 px-3 py-2 text-muted-foreground"
               size="sm"
+              onClick={item.id === "create" ? handleCreateRoom : undefined}
             >
               <item.icon className="size-5" />
               <span className="text-[10px]">{item.label}</span>

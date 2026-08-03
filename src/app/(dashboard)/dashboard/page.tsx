@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
+import { useCreateRoomModalStore } from "@/store/create-room.store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -34,6 +35,7 @@ const features = [
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const openCreateRoom = useCreateRoomModalStore((state) => state.open);
 
   return (
     <div className="flex h-full flex-1 flex-col overflow-y-auto">
@@ -82,6 +84,7 @@ export default function DashboardPage() {
             <Button
               size="lg"
               className="group w-full bg-gradient-to-r from-purple-600 to-blue-600 px-8 shadow-lg shadow-purple-500/20 hover:from-purple-500 hover:to-blue-500 sm:w-auto"
+              onClick={openCreateRoom}
             >
               <Plus className="mr-2 size-4" />
               Create Room

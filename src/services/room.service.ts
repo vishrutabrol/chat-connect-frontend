@@ -1,6 +1,10 @@
 import { apiClient } from "@/lib/axios";
 import { API_ENDPOINTS } from "@/constants/api";
-import type { Room, CreateRoomRequest } from "@/types/room.types";
+import type {
+  CreateRoomRequest,
+  Room,
+  RoomMember,
+} from "@/types/room.types";
 import type { ApiResponse, PaginatedResponse } from "@/types/api.types";
 
 export const roomService = {
@@ -24,6 +28,20 @@ export const roomService = {
       { params: { page, limit } },
     );
     return response.data;
+  },
+
+  async getRoom(roomId: string): Promise<Room> {
+    const response = await apiClient.get<ApiResponse<Room>>(
+      API_ENDPOINTS.ROOMS.GET(roomId),
+    );
+    return response.data.data;
+  },
+
+  async getRoomMembers(roomId: string): Promise<RoomMember[]> {
+    const response = await apiClient.get<ApiResponse<RoomMember[]>>(
+      API_ENDPOINTS.ROOMS.MEMBERS(roomId),
+    );
+    return response.data.data;
   },
 
   async createRoom(data: CreateRoomRequest): Promise<Room> {
